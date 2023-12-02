@@ -1,0 +1,21 @@
+.navbar-custom {
+    width: 80%;
+    margin: 0 auto;
+    background-color: #007bff; /* Bootstrap primary color */
+}
+.hot-posts {
+    margin-top: 20px;
+}
+.card-hot-post {
+    border-color: #ff5722; /* A vibrant color for hot post cards */
+}
+.card-hot-post .card-title {
+    color: #ff5722; /* Title color */
+}
+.main-container {
+    background-color: #f8f9fa; /* Light grey background for readability */
+    padding: 20px;
+}
+a, a:hover {
+    color: #007bff; /* Link color */
+}

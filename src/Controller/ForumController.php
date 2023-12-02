@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ForumController extends AbstractController
 {
-    #[Route('/forum', name: 'app_forum')]
+    #[Route('/', name: 'app_forum')]
     public function index(): Response
     {
         return $this->render('forum/index.html.twig', [
