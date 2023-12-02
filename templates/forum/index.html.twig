@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GigaForum{% endblock %}
+
+{% block body %}
+<html lang="en">
+<head>
+    <title>My Forum</title>
+    <!-- Include Bootstrap CSS -->
+    {{ encore_entry_link_tags('app') }}
+</head>
+<body>
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Navbar</a>
+    <!-- Other navbar content here -->
+</nav>
+
+<!-- Main Content -->
+<div class="container mt-4">
+    <div class="row">
+        <!-- Middle Content (Forums) -->
+        <div class="col-md-8">
+            {% block forums %}
+                <div class="container mt-5">
+                    <!-- Dismissible Alert -->
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <strong>Warning!</strong> This is a dismissible alert example.
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                </div>
+            {% endblock %}
+        </div>
+
+        <!-- Right Sidebar (Card-like Container) -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    This is a card-like
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    Another card :)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

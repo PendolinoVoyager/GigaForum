@@ -1,5 +1,4 @@
 TODO: Add symfony/validator, fixtures
-TODO: Figure out Asset Mapper and Asset package. Learn Bootstrap
 TODO: Board entity. Each board will be connected by one to Many to a subforum (pick better name). Subforum will
 have one-to-many relation with posts, as each post will belong to only one forum. A post will have one-to-many relation
 with comments and many to one with User.
