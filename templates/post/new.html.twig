@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Post{% endblock %}
-
+{% block navbar %}
+    {{ include('_navbar.html.twig', {title: 'New post'}) }}
+{% endblock %}
 {% block body %}
 {{ form(form) }}
     <div class="alert alert-warning alert-dismissible fade show" role="alert">

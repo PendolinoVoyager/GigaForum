@@ -1,7 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}GigaForum{% endblock %}
-
+{% block navbar %}
+    {{ include('_navbar.html.twig', {title: 'Home'}) }}
+{% endblock %}
 {% block body %}
     <div class="card mb-2 shadow-sm">
         <h1 class="bg:bs-red-700">Board</h1>
@@ -20,12 +22,6 @@
             <li>Forum</li>
             <li>Forum</li>
         </ul>
-    </div>
-    <div class="alert alert-warning alert-dismissible fade show" >
-        <strong>Holy guacamole!</strong> You should check in on some of those fields below.
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
     </div>
 {% endblock %}
 
