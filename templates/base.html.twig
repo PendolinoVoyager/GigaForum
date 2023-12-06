@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}{% endblock %}</title>
@@ -7,18 +7,25 @@
     <body>
     {% block navbar %}
     {% endblock %}
-    <div class="card p-3 m-2 shadow-lg">
-    <div class="container-fluid row">
+
+    <div class="card p-3 mx-3 shadow-lg">
+        {% if app.flashes %}
+            {% for flash in app.flashes %}
+                <div class="alert alert-dismissible mt-2" role="alert">
+                    {{ flash }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        <div class="container-fluid row">
             <div class="container col-lg-8 col-md-8 col-sm-12 bg-transparent">
-
-            {% block body %}
-
-            {% endblock %}
+                {% block body %}
+                {% endblock %}
             </div>
-            {% block hotposts %}
-            {% endblock %}
+                {% block hotposts %}
+                {% endblock %}
         </div>
-        </div>
+    </div>
     {% block javascripts %}
         {{ importmap('app') }}
     {% endblock %}

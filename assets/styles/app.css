@@ -3,9 +3,7 @@
     margin: 0 auto;
     background-color: #007bff; /* Bootstrap primary color */
 }
-.hot-posts {
-    margin-top: 20px;
-}
+
 .card-hot-post {
     border-color: #ff5722; /* A vibrant color for hot post cards */
 }
@@ -19,3 +17,6 @@
 a, a:hover {
     color: #007bff; /* Link color */
 }
+
+
+

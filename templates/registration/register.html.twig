@@ -2,12 +2,13 @@
 
 {% block title %}Register{% endblock %}
 {% block navbar %}
-    {{ include('_navbar.html.twig', {title: 'Register'}) }}
+    {{ include('_navbar.html.twig') }}
 {% endblock %}
 
 {% block body %}
+
     {% for flash_error in app.flashes('verify_email_error') %}
-        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+        <div class="rounded-md p-2 border-red-300 bg-red-50 border dark:border-red-600 dark:bg-red-700 dark:text-white mb-4" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
 
@@ -20,16 +21,34 @@
                 <h2 class="text-center">Sign up right now!</h2>
                 <div class="mb-3">
         {{ form_label(registrationForm.email) }}
-        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter your e-mail address here'}}) }}
-                </div>
+        {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control', 'placeholder': 'Enter your e-mail address'}}) }}
+        {% if form_errors(registrationForm.email) %}
+              <div class="alert alert-warning alert-dismissible mt-2" role="alert">
+                    {{ form_errors(registrationForm.email) }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endif %}
+            </div>
                 <div class="mb-3">
         {{ form_label(registrationForm.plainPassword.first) }}
         {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control', 'placeholder': 'Enter your password here'}}) }}
+        {% if form_errors(registrationForm.plainPassword.first) %}
+            <div class="alert alert-warning alert-dismissible mt-2" role="alert">
+                {{ form_errors(registrationForm.plainPassword.first) }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endif %}
                 </div>
                 <div class="mb-3">
         {{ form_label(registrationForm.plainPassword.second) }}
         {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control', 'placeholder': 'Repeat your password here'}}) }}
                 </div>
+            {% if form_errors(registrationForm.plainPassword.second) %}
+                <div class="alert alert-warning alert-dismissible mt-2" role="alert">
+                    {{ form_errors(registrationForm.plainPassword.second) }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            {% endif %}
                 {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
                 {{  form_label(registrationForm.agreeTerms, 'Agree to our terms') }}
 

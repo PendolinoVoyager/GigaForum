@@ -1,7 +1,6 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg">
     <div class="container-fluid">
-        <div class="navbar-brand">{{ title }}</div>
-        <div class="vr m-2" ></div>
+        <div class="navbar-brand">GigaBlog</div>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -9,7 +8,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ path('app_forum') }}">Home</a>
+                    <a class="nav-link" href="{{ path('app_forum') }}">Home</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ path('app_register') }}">Register</a>
@@ -21,6 +20,10 @@
                     <a class="nav-link" href="{{ path('app_post_new') }}">Post</a>
                 </li>
             </ul>
+            <div class="form-check form-switch">
+                <label class="form-check-label mx-1" for="themeSwitch">Mode</label>
+                <input class="form-check-input" type="checkbox" id="themeSwitch">
+            </div>
         </div>
     </div>
 </nav>
