@@ -22,7 +22,8 @@ class PostController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $user = $this->getUser();
-            $post = $form->
+            $post = $form->getData();
+            $post->setAuthor($user);
             $em->persist($post);
             $em->flush();
             $this->addFlash('success', 'Added a new post.');
@@ -31,6 +32,15 @@ class PostController extends AbstractController
         }
         return $this->render('post/new.html.twig', [
             'form' => $form,
+        ]);
+    }
+    #[Route('post/edit/{id}')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function edit(Request $request, EntityManagerInterface $em, Post $post): Response {
+        dd($post);
+        return render('post/edit.html.twig', [
+            'post' => post,
+            'form' => form
         ]);
     }
 }

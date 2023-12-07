@@ -30,16 +30,6 @@
     array (
     ),
   ),
-  '@popperjs/core' => 
-  array (
-    'version' => '2.11.8',
-    'dependencies' => 
-    array (
-    ),
-    'extraFiles' => 
-    array (
-    ),
-  ),
   'bootstrap/dist/js/bootstrap.bundle.min.js' => 
   array (
     'version' => '5.3.2',
