@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GigaForum - {{ post.title }}{% endblock %}
+{% block navbar %}
+    {{ include('_navbar.html.twig') }}
+{% endblock %}
+{% block body %}
+            <div>
+                <h3>{{ post.title }}</h3>
+                <div class="text-body-secondary">{{  post.created | date() }} by {{ post.author.email }}</div>
+                Tags:
+                {% for tag in post.tags %}
+                    <div class="badge bg-secondary">{{ tag }}</div>
+                {% endfor %}
+                <hr/>
+                <div>
+                    {{ post.text }}
+                </div>
+            </div>
+    <hr/>
+    {% if post.replies|length > 0 %}
+    {% for reply in post.replies %}
+        <div class="card mb-2 shadow-sm">
+            <div>
+                <h3>{{ reply.author}}</h3>
+                <div>
+                    {{ reply.text }}
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+    {% else %}
+    Be the first one to reply!
+    {% endif %}
+{% endblock %}

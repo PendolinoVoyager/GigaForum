@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Board;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\PostType;
@@ -11,12 +12,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
-
 class PostController extends AbstractController
 {
-    #[Route('/post', name: 'app_post_new')]
+    #[Route('/board/{board}/post', name: 'app_post_new', priority: 2)]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function new(Request $request, EntityManagerInterface $em): Response
+    public function new(Request $request, EntityManagerInterface $em, Board $board): Response
     {
         $form = $this->createForm(PostType::class);
         $form->handleRequest($request);
@@ -24,6 +24,7 @@ class PostController extends AbstractController
             $user = $this->getUser();
             $post = $form->getData();
             $post->setAuthor($user);
+            $post->setBoard($board);
             $em->persist($post);
             $em->flush();
             $this->addFlash('success', 'Added a new post.');
@@ -34,13 +35,23 @@ class PostController extends AbstractController
             'form' => $form,
         ]);
     }
-    #[Route('post/edit/{id}')]
+    #[Route('/post/edit/{id}', name: 'app_post_edit')]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
     public function edit(Request $request, EntityManagerInterface $em, Post $post): Response {
-        dd($post);
-        return render('post/edit.html.twig', [
-            'post' => post,
-            'form' => form
+
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $user = $this->getUser();
+            $post = $form->getData();
+            $em->persist($post);
+            $em->flush();
+            $this->addFlash('success', 'Added a new post.');
+            return $this->redirectToRoute('app_forum');
+        }
+        return $this->render('post/edit.html.twig', [
+            'post' => $post,
+            'form' => $form
         ]);
     }
 }
