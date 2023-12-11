@@ -16,6 +16,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 
 {
+    public function __toString(): string
+    {
+        return $this->email;
+    }
 
     #[ORM\Id]
     #[ORM\GeneratedValue]

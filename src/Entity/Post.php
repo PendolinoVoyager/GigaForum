@@ -13,6 +13,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
 {
+    public function __toString()
+    {
+       return $this->id.': '.$this->title;
+    }
     public function __construct() {
         $this->created = new DateTime;
         $this->likes = new ArrayCollection();
