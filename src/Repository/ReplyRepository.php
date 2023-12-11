@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Reply;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -16,6 +17,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ReplyRepository extends ServiceEntityRepository
 {
+    public const PAGINATOR_PER_PAGE = 10;
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Reply::class);
@@ -45,4 +47,14 @@ class ReplyRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+    public function getReplyPaginator($post, int $offset): Paginator {
+        $query = $this->createQueryBuilder('r')
+            ->andWhere('r.post = :post')
+            ->setParameter('post', $post)
+            ->orderBy('r.created', 'DESC')
+            ->setMaxResults(self::PAGINATOR_PER_PAGE)
+            ->setFirstResult($offset)
+            ->getQuery();
+        return new Paginator($query);
+    }
 }
