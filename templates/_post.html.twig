@@ -1,0 +1,17 @@
+<div class="card m-2 shadow-sm row">
+    <div>
+        <a href="{{ path('app_show', {'board': board.id, 'post': post.id}) }}" class="text-decoration-none text-reset"><h2>{{ post.title }}</h2></a>
+        <div class="text-body-secondary">{{  post.created | date() }} by {{ post.author }}</div>
+        <div class="mb-2">
+        {% if post.tags | length > 0 %}
+            Tags:
+            {% for tag in post.tags %}
+                <div class="badge bg-secondary">{{ tag }}</div>
+            {% endfor %}
+        {% endif %}
+        </div>
+    </div>
+    <div class="mb-2">
+        <a href="{{ path('app_post_edit', {'id': post.id}) }}"  class="bg-body-secondary p-1 rounded-2 text-reset text-decoration-none">Edit</a>
+    </div>
+</div>

@@ -3,12 +3,16 @@
 namespace App\Entity;
 
 use App\Repository\ReplyRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ReplyRepository::class)]
 class Reply
 {
+    public function __construct() {
+        $this->created = new DateTime();
+    }
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

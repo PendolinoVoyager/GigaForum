@@ -22,13 +22,16 @@
     <div class="mb-3">
         {{ form_label(form.tags, null, {'label_attr': {'class': 'form-label'}}) }}
         {{ form_widget(form.tags, {'attr': {'class': 'form-control'}}) }}
+
     </div>
     <div class="mb-3">
         <label for="tags" class="form-label">Tags</label>
         <input type="text" class="form-control" id="tags"/>
     </div>
     <button type="submit" class="btn btn-primary">Post</button>
-
+    <div style="display: none">
+        {{ form_row(form.board) }}
+    </div>
     {{ form_end(form) }}
 
 {% endblock %}

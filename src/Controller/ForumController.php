@@ -4,8 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Board;
 use App\Entity\Post;
+use App\Entity\Reply;
+use App\Form\ReplyType;
 use App\Repository\BoardRepository;
 use App\Repository\ReplyRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,12 +31,24 @@ class ForumController extends AbstractController
         ]);
     }
     #[Route('/board/{board}/{post}', name: 'app_show')]
-    public function show(Request $request, Post $post, ReplyRepository $replyRepository): Response {
+    public function show(Request $request, Post $post, Board $board, ReplyRepository $replyRepository, EntityManagerInterface $entityManager): Response {
+        $replyForm = $this->createForm(ReplyType::class);
+        $replyForm->handleRequest($request);
+        if ($replyForm->isSubmitted() && $replyForm->isValid()) {
+            $reply = $replyForm->getData();
+            $user = $this->getUser();
+            $reply->setAuthor($user)
+                ->setPost($post);
+            $entityManager->persist($reply);
+            $entityManager->flush();
+            $this->addFlash('success', 'Successfully replied.');
+        }
         $offset = max(0, $request->query->getInt('offset', 0));
         $paginator = $replyRepository->getReplyPaginator($post, $offset);
         return $this->render('forum/show.html.twig', [
             'post' => $post,
-            'comments' => $paginator,
+            'replyForm' => $this->createForm(ReplyType::class),
+            'replies' => $paginator,
             'previous' => $offset - ReplyRepository::PAGINATOR_PER_PAGE,
             'next' => min(count($paginator), $offset + ReplyRepository::PAGINATOR_PER_PAGE)
         ]);

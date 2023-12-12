@@ -16,7 +16,7 @@ class PostController extends AbstractController
 {
     #[Route('/board/{board}/post', name: 'app_post_new', priority: 2)]
     #[IsGranted('IS_AUTHENTICATED_FULLY')]
-    public function new(Request $request, EntityManagerInterface $em, Board $board): Response
+    public function new(Request $request, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(PostType::class);
         $form->handleRequest($request);
@@ -24,11 +24,13 @@ class PostController extends AbstractController
             $user = $this->getUser();
             $post = $form->getData();
             $post->setAuthor($user);
-            $post->setBoard($board);
             $em->persist($post);
             $em->flush();
             $this->addFlash('success', 'Added a new post.');
-            return $this->redirectToRoute('app_forum');
+            return $this->redirectToRoute('app_show',
+                ['board' => $post->getBoard()->getId(),
+                'post' => $post->getId()
+            ]);
 
         }
         return $this->render('post/new.html.twig', [
@@ -47,11 +49,16 @@ class PostController extends AbstractController
             $em->persist($post);
             $em->flush();
             $this->addFlash('success', 'Added a new post.');
-            return $this->redirectToRoute('app_forum');
+            return $this->redirectToRoute('app_show',
+                ['board' => $post->getBoard()->getId(),
+                    'post' => $post->getId()
+                ]);
+
         }
         return $this->render('post/edit.html.twig', [
             'post' => $post,
             'form' => $form
         ]);
+
     }
 }

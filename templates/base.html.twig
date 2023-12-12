@@ -9,13 +9,15 @@
     {% endblock %}
 
     <div class="card p-3 mx-3 shadow-lg">
-        {% if app.flashes %}
+        {% if app.flashes | length > 0 %}
+            <div class="card">
             {% for flash in app.flashes %}
                 <div class="alert alert-dismissible mt-2" role="alert">
-                    {{ flash }}
+                    <p class="display-6">{{ flash }}</p>
                     <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
                 </div>
             {% endfor %}
+        </div>
         {% endif %}
         <div class="container-fluid row">
             <div class="container col-lg-8 col-md-8 col-sm-12 bg-transparent">

@@ -7,20 +7,9 @@
 {% block body %}
     {% for board in boards %}
     <div class="card mb-2 shadow-sm">
-        <a href="{{ path('app_board', {'board': board.id}) }}" class="text-decoration-none text-primary-emphasis">
-            <h1 class="bg:bs-red-700">{{ board.name }}</h1>
+        <a href="{{ path('app_board', {'board': board.id}) }}" class="text-decoration-none text-reset display-6 text-center">
+            <h1 >{{ board.name }}</h1>
         </a>
-        <ul>
-            {% for post in board.posts %}
-                <div>
-                    <h2>{{ post.title }}</h2>
-
-                </div>
-                <div>
-                    {{ post.text }}
-                </div>
-            {% endfor %}
-        </ul>
     </div>
     {% endfor %}
 
