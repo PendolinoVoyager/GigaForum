@@ -18,9 +18,16 @@
                 <div>
                     {{ post.text }}
                 </div>
-            </div>
+    Likes
+    <a href="{{ path('app_like', {'id' : post}) }}">
+      <div class="rounded-5 {% if app.user and post in app.user.likedPosts %}btn-primary{% else %} btn-secondary {% endif %} btn">{{ post.likes|length }}</div></a>
+    Dislikes
+    <a href="{{ path('app_dislike', {'id' : post}) }}">
+        <div class="rounded-5 {% if app.user and post in app.user.dislikedPosts %}btn-primary{% else %} btn-secondary {% endif %} btn mx-2">{{ post.dislikes|length }}</div>
+    </a>
     <hr/>
     <div class="container-fluid mb-3">
+        {% if app.user and not is_granted('ROLE_BANNED') %}
         {{ form_start(replyForm, {'attr': {'class': 'text-center'}}) }}
         <div class="mb-3 row">
             {{ form_widget(replyForm.text) }}
@@ -29,6 +36,7 @@
             <button type="submit" class="btn btn-primary btn-lg">Reply</button>
         </div>
         {{ form_end(replyForm) }}
+        {% endif %}
     </div>
 
 

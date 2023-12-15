@@ -35,6 +35,27 @@ class PostRepository extends ServiceEntityRepository
 //            ->getResult()
 //        ;
 //    }
+    public function findByTags(array $tags): array
+    {
+        $qb = $this->createQueryBuilder('p');
+
+        foreach ($tags as $key => $tag) {
+            $qb->andWhere($qb->expr()->like('p.tags', ':tag' . $key))
+                ->setParameter('tag' . $key, '%' . $tag . '%');
+        }
+
+        return $qb->orderBy('p.created', 'DESC')
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findByTitle(string $title): array {
+        return $this->createQueryBuilder('p')
+            ->andWhere('LOWER(p.title) LIKE LOWER(:title)')
+            ->setParameter('title', '%' . $title . '%')
+            ->getQuery()
+            ->getResult();
+    }
 
 //    public function findOneBySomeField($value): ?Post
 //    {

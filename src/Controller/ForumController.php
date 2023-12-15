@@ -7,6 +7,7 @@ use App\Entity\Post;
 use App\Entity\Reply;
 use App\Form\ReplyType;
 use App\Repository\BoardRepository;
+use App\Repository\PostRepository;
 use App\Repository\ReplyRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,17 +25,17 @@ class ForumController extends AbstractController
         ]);
     }
     #[Route('/board/{board}', name: 'app_board')]
-    public function board(Board $board): Response
+    public function board(Board $board, PostRepository $postRepository): Response
     {
         return $this->render('forum/board.html.twig', [
-            'board' => $board
+            'board' => $board,
         ]);
     }
     #[Route('/board/{board}/{post}', name: 'app_show')]
     public function show(Request $request, Post $post, Board $board, ReplyRepository $replyRepository, EntityManagerInterface $entityManager): Response {
         $replyForm = $this->createForm(ReplyType::class);
         $replyForm->handleRequest($request);
-        if ($replyForm->isSubmitted() && $replyForm->isValid()) {
+        if ($replyForm->isSubmitted() && $replyForm->isValid() && !$this->isGranted('ROLE_BANNED')) {
             $reply = $replyForm->getData();
             $user = $this->getUser();
             $reply->setAuthor($user)
@@ -52,6 +53,10 @@ class ForumController extends AbstractController
             'previous' => $offset - ReplyRepository::PAGINATOR_PER_PAGE,
             'next' => min(count($paginator), $offset + ReplyRepository::PAGINATOR_PER_PAGE)
         ]);
+    }
+    #[Route('/dupa')]
+    public function search(PostRepository $postRepository): Response {
+        dd($postRepository->findByTitle("test"));
     }
 
 

@@ -13,6 +13,8 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 class Post
 {
+    public const EDIT = 'POST_EDIT';
+    public const VIEW = 'POST_VIEW';
     public function __toString()
     {
        return $this->id.': '.$this->title;

@@ -1,8 +1,4 @@
-TODO: Add symfony/validator, fixtures
-TODO: Board entity. Each board will be connected by one to Many to a subforum (pick better name). Subforum will
-have one-to-many relation with posts, as each post will belong to only one forum. A post will have one-to-many relation
-with comments and many to one with User.
+
 TODO: Roles Admin, Moderator and User. Also add Banned Role only for viewing and following.
 TODO: User Checker
-TODO: Email Verifier, Email Catcher
-TODO: Finally, add DMs, notification and hamburger navigation for Mobile. Then add try to add JS but after finishing, so you destroy everything.
+TODO: Search and make tags useful
