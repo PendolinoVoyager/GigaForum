@@ -6,6 +6,7 @@ use App\Entity\Board;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Form\PostType;
+use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,8 +22,8 @@ class PostController extends AbstractController
         $form = $this->createForm(PostType::class);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
             $post = $form->getData();
+            $user = $this->getUser();
             $post->setAuthor($user);
             $em->persist($post);
             $em->flush();
@@ -38,13 +39,12 @@ class PostController extends AbstractController
         ]);
     }
     #[Route('/post/edit/{id}', name: 'app_post_edit')]
-    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    #[IsGranted('POST_EDIT', 'post')]
     public function edit(Request $request, EntityManagerInterface $em, Post $post): Response {
 
         $form = $this->createForm(PostType::class, $post);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $user = $this->getUser();
             $post = $form->getData();
             $em->persist($post);
             $em->flush();
@@ -59,6 +59,58 @@ class PostController extends AbstractController
             'post' => $post,
             'form' => $form
         ]);
+    }
 
+    #[Route('/post/remove/{id}', name: 'app_post_remove')]
+    #[IsGranted('POST_EDIT', 'post')]
+    public function remove(Request $request, EntityManagerInterface $em, Post $post): Response {
+        $em->remove($post);
+        $em->flush();
+        $this->addFlash('success', 'Successfully removed the post');
+        return $this->redirectToRoute('app_forum');
+    }
+    #[Route('/post/like/{id}', 'app_like')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function like(Request $request, EntityManagerInterface $entityManager, Post $post): Response {
+    /**
+     * @var User $user
+     */
+    $user = $this->getUser();
+    if (!$user->getLikedPosts()->contains($post)){
+        $post->addLike($user);
+        if ($user->getDislikedPosts()->contains($post)) {
+            $post->removeDislike($user);
+        }
+    }
+    else {
+        $post->removeLike($user);
+    }
+    $entityManager->persist($post);
+    $entityManager->flush();
+    $referer = $request->headers->get('referer');
+    return $this->redirect($referer);
+    }
+
+    #[Route('/post/dislike/{id}', 'app_dislike')]
+    #[IsGranted('IS_AUTHENTICATED_FULLY')]
+    public function dislike(Request $request, EntityManagerInterface $entityManager, Post $post): Response {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+        if (!$user->getDislikedPosts()->contains($post)){
+            $post->addDislike($user);
+            if ($user->getLikedPosts()->contains($post)) {
+                $post->removeLike($user);
+            }
+        }
+        else {
+            $post->removeDislike($user);
+        }
+        $entityManager->persist($post);
+        $entityManager->flush();
+        $referer = $request->headers->get('referer');
+        return $this->redirect($referer);
     }
 }
+

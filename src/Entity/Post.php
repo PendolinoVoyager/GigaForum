@@ -60,7 +60,8 @@ class Post
     #[ORM\JoinTable(name: "post_dislikes")]
     private Collection $dislikes;
 
-    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Reply::class)]
+    #[ORM\OneToMany(mappedBy: 'post', targetEntity: Reply::class, cascade: ['persist'], orphanRemoval: true)]
+
     private Collection $replies;
 
     public function getId(): int {

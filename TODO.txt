@@ -1,4 +1,6 @@
 
-TODO: Roles Admin, Moderator and User. Also add Banned Role only for viewing and following.
-TODO: User Checker
+TODO: Add banning, hide buttons
+TODO: Add delete action on post
+TODO: Make partials for listing posts with likes, dislikes and actions
 TODO: Search and make tags useful
+TODO: profile pages
