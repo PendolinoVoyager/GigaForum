@@ -54,10 +54,14 @@ class ForumController extends AbstractController
             'next' => min(count($paginator), $offset + ReplyRepository::PAGINATOR_PER_PAGE)
         ]);
     }
-    #[Route('/dupa')]
-    public function search(PostRepository $postRepository): Response {
-        dd($postRepository->findByTitle("test"));
+    #[Route('/search', name: 'app_search')]
+    public function search(Request $request, PostRepository $postRepository): Response {
+        $title = $request->get('searchphrase');
+        return $this->render('forum/search.html.twig', [
+            'posts' => $postRepository->findByTitle($title),
+        ]);
     }
+
 
 
 }

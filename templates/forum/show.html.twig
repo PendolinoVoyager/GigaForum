@@ -20,11 +20,19 @@
                 </div>
     Likes
     <a href="{{ path('app_like', {'id' : post}) }}">
-      <div class="rounded-5 {% if app.user and post in app.user.likedPosts %}btn-primary{% else %} btn-secondary {% endif %} btn">{{ post.likes|length }}</div></a>
-    Dislikes
+      <div class="rounded-5 {% if app.user and post in app.user.likedPosts %}btn-primary{% else %} btn-secondary {% endif %} btn m-xl-1">{{ post.likes|length }}</div></a>
+                 <span class="m-xl-2">Dislikes</span>
     <a href="{{ path('app_dislike', {'id' : post}) }}">
-        <div class="rounded-5 {% if app.user and post in app.user.dislikedPosts %}btn-primary{% else %} btn-secondary {% endif %} btn mx-2">{{ post.dislikes|length }}</div>
+        <div class="rounded-5 {% if app.user and post in app.user.dislikedPosts %}btn-primary{% else %} btn-secondary {% endif %} btn">{{ post.dislikes|length }}</div>
     </a>
+    <div class="d-flex">
+        <div class="mb-2">
+            <a href="{{ path('app_post_edit', {'id': post.id}) }}"  class="btn btn-primary p-1 rounded-2 text-reset text-decoration-none">Edit</a>
+        </div>
+        <div class="mb-2 mx-2">
+            <a href="{{ path('app_post_remove', {'id': post.id}) }}"  class="btn btn-danger p-1 rounded-2 text-reset text-decoration-none">Remove</a>
+        </div>
+    </div>
     <hr/>
     <div class="container-fluid mb-3">
         {% if app.user and not is_granted('ROLE_BANNED') %}
